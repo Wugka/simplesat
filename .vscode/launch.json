@@ -1,0 +1,36 @@
+// {
+//     "name": "Python: Django",
+//     "type": "python",
+//     "request": "launch",
+//     "program": "/backend/api/simplesat/manage.py",
+//     "args": [
+//         "runserver",
+//     ],
+//     "django": true,
+
+// }
+{
+    "configurations": [
+            {"name":"Python: Django","type":"python","request":"launch","program":"${workspaceFolder}\\backend\\api\\simplesat\\manage.py","args":["runserver"],"django":true}
+    ]
+}
+
+
+// {
+//     "name": "Django",
+//     "type": "python",
+//     "request": "launch",
+//     "stopOnEntry": false,
+//     "python": "/backend/api/.venv/Scripts/python.exe",
+//     "args": [
+//         "runserver",
+//         "--noreload"
+//     ],
+//     "django":true,
+//     "debugOptions": [
+//         "WaitOnAbnormalExit",
+//         "WaitOnNormalExit",
+//         "RedirectOutput",
+//         "DjangoDebugging"
+//     ],
+// }
