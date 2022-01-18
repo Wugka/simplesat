@@ -8,7 +8,7 @@ export function getToDoList(){
     try {
 
         var result = axios({
-            url: baseUrl + '/api/tasks',
+            url: baseUrl + 'api/tasks',
             headers: headers,
             method: 'GET',
         })
