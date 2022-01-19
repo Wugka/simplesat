@@ -1,0 +1,11 @@
+.scaleUp{
+    transition: all .2s ease-in-out;
+}
+
+.scaleUp:hover{
+    transform: scale(1.3);
+}
+
+.outlineFocusNone:focus{
+    box-shadow: none;
+}

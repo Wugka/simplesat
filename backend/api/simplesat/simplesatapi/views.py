@@ -1,3 +1,4 @@
+from functools import partial
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
@@ -45,7 +46,8 @@ def task_detail(request,pk):
 
     elif request.method == 'PUT':
         # data = JSONParser().parse(request.data)
-        serializer = TaskSerializer(task, data= request.data)
+        print(request.data)
+        serializer = TaskSerializer(task , data = {'completed':request.data['completed']}, partial=True)
 
         if serializer.is_valid():
            serializer.save()
