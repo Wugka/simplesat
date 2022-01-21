@@ -3,6 +3,15 @@ import { Container, Card, Form } from 'react-bootstrap'
 import { BsFillEraserFill } from "react-icons/bs";
 import { getToDoList,createToDoList,updateToDoList,deleteAllToDoList } from '../../services/ToDoList'
 import moment from 'moment'
+import { fadeInRight } from 'react-animations';
+import Radium, {StyleRoot} from 'radium';
+
+const styles = {
+    leftFadeIn: {
+      animation: 'x 1s',    
+      animationName: Radium.keyframes(fadeInRight, 'fadeInRight'),
+    }
+  }
 
 export default function ToDoList(){
     const [toDoList, setToDoList] = useState({data: [], loading:false})
@@ -20,7 +29,6 @@ export default function ToDoList(){
         setToDoList(prev => ({...prev, loading:true}))
         getToDoList().then(res => {
             if(res.data){
-                console.log(JSON.stringify(res.data))
                 setToDoList({data: res.data, loading:false})
             }
             else{
@@ -36,7 +44,6 @@ export default function ToDoList(){
     //*****************************************************************************************
 
     function handleDelete(){
-        console.log('handledelete')
         deleteAllToDoList().then(() => {
                 getData()
         })
@@ -86,8 +93,8 @@ export default function ToDoList(){
     //*****************************************************************************************
 
     function handleToDoChange(e){
-        console.log(e.target.value)
         const value = e.target.value
+
         setTodoInput(value)
     }
 
@@ -100,25 +107,34 @@ export default function ToDoList(){
                     <Card style={{borderRadius:'6px'}}>
 
                         <Card.Body>
-                            <div className='d-flex align-items-center text-left mb-4'><h2 style={{width:'100%'}}>Today</h2>
+                            <div className='d-flex align-items-center text-left'><h2 style={{width:'100%', color:'#00b5ad'}}>Today</h2>
                                 <span><BsFillEraserFill className='scaleUp' onClick={handleDelete} style={{color:'pink',cursor:'pointer', fontSize:'20px'}} /></span>
+                            </div>
+                            <div className='mb-3'>
+                                <small style={{fontStyle:'italic'}}> {toDoList.data.length} Tasks</small>
                             </div>
                             <Form>
                                 { toDoList.data.length > 0 ?
                                     toDoList.data.map((item) => {
+                                        
                                         return(
-                                            <Form.Group key={item.id} className="mb-3 d-flex" controlId={item.id}>
-                                                <Form.Check
-                                                    style={{marginRight:'5px'}}
-                                                    checked={item.completed}
-                                                    item-id={item.id}
-                                                    onChange={handleCheckboxChange}
-                                                    type="checkbox"
-                                                />
-                                                <Form.Label style={{textDecoration: item.completed ? 'line-through' :'', color: item.completed ? 'grey' : ''}}>
-                                                    {item.title}
-                                                </Form.Label>
-                                            </Form.Group>
+                                            <StyleRoot key={item.id}>
+                                                <div style={styles.leftFadeIn}>
+                                                    <Form.Group  className="mb-3 d-flex" controlId={item.id}>
+                                                        <Form.Check
+                                                            style={{marginRight:'5px'}}
+                                                            checked={item.completed}
+                                                            item-id={item.id}
+                                                            onChange={handleCheckboxChange}
+                                                            type="checkbox"
+                                                        />
+                                                        <Form.Label style={{wordBreak:'break-word', textDecoration: item.completed ? 'line-through' :'', color: item.completed ? 'grey' : ''}}>
+                                                            {item.title}
+                                                        </Form.Label>
+                                                    </Form.Group>
+                                                </div>
+                                            </StyleRoot>
+
                                         )
                                     })
                                 : <span style={{color:'#00b5ad'}}>Add some Task below...</span> }
@@ -127,7 +143,15 @@ export default function ToDoList(){
 
                         <Card.Footer style={{padding:'5px'}}>
                             <Form.Group style={{display:'flex', alignItems:'center'}}>
-                                <Form.Control className='outlineFocusNone' onChange={handleToDoChange} value={toDoInput} style={{border:'none',background:'inherit'}} type="text" placeholder="What do you want to do?" />
+                                <Form.Control
+                                    className='outlineFocusNone'
+                                    onChange={handleToDoChange}
+                                    value={toDoInput}
+                                    style={{border:'none',background:'inherit'}}
+                                    type="text"
+                                    maxLength={50}
+                                    placeholder="What do you want to do?"
+                                />
                                 <span onClick={handleCreate} style={{float:'right', color:'#00b5ad',cursor:'pointer', textDecoration:'underline'}}>Add</span>
                             </Form.Group>
                         </Card.Footer>
